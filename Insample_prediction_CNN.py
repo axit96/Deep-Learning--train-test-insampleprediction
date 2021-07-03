@@ -2,9 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pandas import read_csv
 import math
+from keras.layers import Flatten
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
 from keras.models import Sequential
 from keras.layers import Dense
-from keras.layers import LSTM
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 
@@ -40,10 +42,14 @@ def spliting(size, look_back, data):
 
 def training(trainX, trainY, epoch, batch):
 	model = Sequential()
-	model.add(LSTM(units=64,return_sequences=True))
-	model.add(LSTM(units=32,return_sequences=False))
+	model.add(Conv1D(filters=512, kernel_size=2, activation='relu'))
+	model.add(MaxPooling1D(pool_size=2))
+	model.add(Conv1D(filters=256, kernel_size=2, activation='relu'))
+	model.add(MaxPooling1D(pool_size=2))
+	model.add(Flatten())
+	model.add(Dense(50, activation='relu'))
 	model.add(Dense(1))
-	model.compile(loss='mean_squared_error', optimizer='adam', metrics=["accuracy"])
+	model.compile(optimizer='adam', loss='mse')
 	model.fit(trainX, trainY, epochs=epoch, batch_size=batch, verbose=1)
 	return model
 

@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pandas import read_csv
 import math
+from keras.layers import SimpleRNN
 from keras.models import Sequential
 from keras.layers import Dense
-from keras.layers import LSTM
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 
@@ -40,10 +40,10 @@ def spliting(size, look_back, data):
 
 def training(trainX, trainY, epoch, batch):
 	model = Sequential()
-	model.add(LSTM(units=64,return_sequences=True))
-	model.add(LSTM(units=32,return_sequences=False))
+	model.add(SimpleRNN(units=256, activation='relu', return_sequences=True))
+	model.add(SimpleRNN(units=128, activation='relu', return_sequences=False))
 	model.add(Dense(1))
-	model.compile(loss='mean_squared_error', optimizer='adam', metrics=["accuracy"])
+	model.compile(optimizer='adam', loss='mse', metrics=['accuracy'])
 	model.fit(trainX, trainY, epochs=epoch, batch_size=batch, verbose=1)
 	return model
 
