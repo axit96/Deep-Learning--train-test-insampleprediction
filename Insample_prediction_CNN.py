@@ -114,7 +114,7 @@ def insampleprediction(model,new,scale):
       i=i+1
   return(scale.inverse_transform(lst_output))
 
-dataframe = read_csv('interpolated_complete_hourly_data.csv', usecols=[1])
+dataframe = read_csv('file name with path', usecols=["Column number"])
 dataset = dataframe.values
 dataset = dataset[:len(dataset)].astype('float64')
 print(len(dataset))
