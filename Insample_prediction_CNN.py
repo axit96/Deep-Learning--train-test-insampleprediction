@@ -2,11 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pandas import read_csv
 import math
-from keras.layers import Flatten
-from keras.layers.convolutional import Conv1D
-from keras.layers.convolutional import MaxPooling1D
-from keras.models import Sequential
-from keras.layers import Dense
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import Conv1D
+from tensorflow.keras.layers import MaxPooling1D
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 
