@@ -8,10 +8,6 @@ from tensorflow.keras.layers import LSTM
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 
-month = ['December','March','June','September','December','January']
-year = ['2019','2020','2020','2020','2020','2021']
-m=0
-y=0
 x=[]
 
 def create_dataset(dataset, look_back=1):
@@ -66,7 +62,7 @@ def RMSE(testY, testPredict):
 	print('Test Score: %.2f RMSE' % (testScore))
 	return testScore
 
-def ploting(x, testPredict,data,output,month,year):
+def ploting(x, testPredict,data,output):
 	for i in range(0,len(data)):
 		x.append(i)
 		i+=1
@@ -79,7 +75,7 @@ def ploting(x, testPredict,data,output,month,year):
 	plt.plot(x[-7:], output,'y')
 	plt.ylabel("Relative Humidity")
 	plt.xlabel("No of Samples")
-	plt.title("Relative Humidity \n Duration: January-2016 to " + month + "-" + year + "  \n Algorithm:LSTM")
+	plt.title("Relative Humidity \n Algorithm:LSTM")
 	del x[:]
 	return plt
 
@@ -125,18 +121,16 @@ for i in range(4*365,int(len(dataset))):
 	output=insampleprediction(mdel,new,scale)
 	print(testpredict)
 	score = RMSE(testy,testpredict)
-	plt = ploting(x,testpredict,data_new,output,month[m],year[y])
+	plt = ploting(x,testpredict,data_new,output)
 	plt.show()
 	while(i<int(len(dataset))):
-		m+=1
-		y+=1
 		scale,new_data = preprocessing(dataset[:i+91])
 		trainx,trainy, testx, testy, new = spliting(0.8,look,new_data) 
 		mdel = fitting(trainx, trainy, epoch, batch, mdel)
 		testy, testpredict, trainpredict, data_new = predicion(mdel,trainx,testx,trainy,testy,scale,new_data)
 		output=insampleprediction(mdel,new,scale)
 		score = RMSE(testy,testpredict)
-		plt = ploting(x,testpredict,data_new,output,month[m],year[y])
+		plt = ploting(x,testpredict,data_new,output)
 		plt.show()
 		i += 91  
 	break
